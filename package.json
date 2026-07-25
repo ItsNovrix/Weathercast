@@ -1,0 +1,23 @@
+{
+  "private": true,
+  "name": "weathercast",
+  "version": "0.0.23",
+  "license": "BSD-3-Clause",
+  "type": "module",
+  "scripts": {
+    "devvit": "devvit",
+    "build": "vite build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@devvit/start": "0.13.9",
+    "devvit": "0.13.9",
+    "typescript": "5.8.3",
+    "vite": "^8.0.16"
+  },
+  "dependencies": {
+    "@devvit/web": "0.13.9",
+    "@hono/node-server": "^2.0.4",
+    "hono": "^4.12.23"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "$schema": "https://developers.reddit.com/schema/config-file.v1.json",
+  "name": "weathercast",
+  "permissions": {
+    "reddit": true,
+    "http": {
+      "enable": true,
+      "domains": [
+        "api.weather.gov",
+        "spc.noaa.gov"
+      ]
+    }
+  },
+  "server": {
+    "dir": "dist/server",
+    "entry": "index.cjs"
+  },
+  "scheduler": {
+    "tasks": {
+      "weather_15_min_cron": {
+        "endpoint": "/internal/weather-update",
+        "cron": "*/15 * * * *"
+      }
+    }
+  },
+  "marketingAssets": {
+    "icon": "assets/icon.png"
+  },
+  "dev": {
+    "subreddit": "NovrixLabs"
+  }
+}
