@@ -33,6 +33,10 @@ This app was developed in compliance with [Reddit's Developer Terms](https://www
 
 ---
 
+## 🆘 Feedback & Support
+
+If you have any feedback/suggestions or need support, visit [r/NovrixApps](https://www.reddit.com/r/NovrixApps).
+
 ## 🚀 Changelog
 
 * v0.0.1: Basic functionality implemented.
@@ -58,11 +62,8 @@ This app was developed in compliance with [Reddit's Developer Terms](https://www
 * v0.0.21: Updated Mesoscale Discussion fetching method to address issues with Devvit domain approval.
 * v0.0.22: Testing new Mesoscale Discussion fetching methods due to ongoing issues with Mesoscale Discussion fetches.
 * v0.0.23: Testing new Mesoscale Discussion fetching methods due to ongoing issues with Mesoscale Discussion fetches.
+* v0.0.24: Updated app to latest Devvit version. Updated Mesoscale Discussion fetching to cover new SPC formatting.
 
 ---
-
-## 🆘 Support
-
-If you encounter any issues or have questions, please visit [r/NovrixApps](https://reddit.com/r/NovrixApps).
 
 Thanks for using **Weathercast**!

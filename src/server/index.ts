@@ -29,7 +29,7 @@ app.post('/internal/weather-update', async (c) => {
             day: 'numeric', 
             year: 'numeric' 
         });
-        const targetTitle = `Severe Weather & Tropical Dashboard - ${dateString}`;
+        const targetTitle = `Severe Weather Dashboard - ${dateString}`;
 
         // Check for existing daily post
         const existingPosts = await reddit.getNewPosts({
@@ -67,14 +67,14 @@ app.post('/internal/weather-update', async (c) => {
 
         const mdLinksText = sortedMDs.length > 0 
             ? sortedMDs.map(md => `* [${md.title}](${md.url})`).join('\n')
-            : "* *No Mesoscale Discussions issued yet today.*";
+            : "* *No Mesoscale Discussions issued at this time.*";
 
         // ==========================================
         // 4. OUTLOOK HISTORY
         // ==========================================
         const previousOutlooksText = outlook.previousOutlooks.length > 0
             ? outlook.previousOutlooks.map((o: any) => `* [Previous ${o.title}](${o.url})`).join('\n')
-            : "* *No previous outlooks today.*";
+            : "* *Previous outlooks not yet available.*";
         
         const currentOutlookLinkText = outlook.currentOutlookLink
             ? `* **[Current ${outlook.currentOutlookLink.title}](${outlook.currentOutlookLink.url})**`

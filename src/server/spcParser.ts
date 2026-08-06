@@ -107,7 +107,7 @@ export async function fetchDay1Outlook() {
                 const rawTitle = titleMatch[1];
                 const url = linkMatch[1];
                 
-                const mdNumMatch = rawTitle.match(/Mesoscale (?:Precipitation )?Discussion (\d+)/i);
+                const mdNumMatch = rawTitle.match(/(?:Mesoscale (?:Precipitation )?Discussion|SPC MD)\s+(\d+)/i);
                 if (mdNumMatch) {
                     activeMDs.push({
                         title: `Mesoscale Discussion ${mdNumMatch[1]}`,
@@ -122,7 +122,7 @@ export async function fetchDay1Outlook() {
     }
 
     // ==========================================
-    // 5. RETURN COMBINED DATA
+    // 5. ASSEMBLE PAYLOAD
     // ==========================================
     return {
         timestamp: textData.issuanceTime,
