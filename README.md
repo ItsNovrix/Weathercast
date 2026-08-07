@@ -63,6 +63,7 @@ If you have any feedback/suggestions or need support, visit [r/NovrixApps](https
 * v0.0.22: Testing new Mesoscale Discussion fetching methods due to ongoing issues with Mesoscale Discussion fetches.
 * v0.0.23: Testing new Mesoscale Discussion fetching methods due to ongoing issues with Mesoscale Discussion fetches.
 * v0.0.24: Updated app to latest Devvit version. Updated Mesoscale Discussion fetching to cover new SPC formatting.
+* v0.0.25: Updated post formatting.
 
 ---
 

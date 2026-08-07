@@ -109,7 +109,7 @@ app.post('/internal/weather-update', async (c) => {
 ${previousOutlooksText}
 ${currentOutlookLinkText}
 
-**Active Mesoscale Discussions:**
+## 🌩️ Active Mesoscale Discussions
 ${mdLinksText}
 
 ---
@@ -174,8 +174,7 @@ ${tropicalStormsText}
             });
 
             await newPost.sticky();
-            await newPost.lock();
-            console.log(`Successfully created, pinned, and locked new Daily Dashboard: ${newPost.id}`);
+            console.log(`Successfully created and pinned new Daily Dashboard: ${newPost.id}`);
         }
 
         return c.json({ status: 'success' });
