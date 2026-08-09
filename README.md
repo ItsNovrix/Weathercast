@@ -39,7 +39,7 @@ If you have any feedback/suggestions or need support, visit [r/NovrixApps](https
 
 ## 🚀 Changelog
 
-**Latest Version:** v0.0.27
+**Latest Version:** v0.0.28
 
 * Resolved issue where app install/upgrade triggers were not firing properly.
 

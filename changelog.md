@@ -2,7 +2,16 @@
 
 ---
 
+## v0.0.28
+
+---
+
+* Resolved issue where app install/upgrade triggers were not firing properly.
+* Addressed formatting issue with changelog.
+
 ## v0.0.27
+
+---
 
 * Resolved issue where app install/upgrade triggers were not firing properly.
 
