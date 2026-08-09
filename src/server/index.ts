@@ -1,8 +1,9 @@
 import { Hono } from 'hono';
 import { serve } from '@hono/node-server';
 import { createServer, getServerPort, reddit } from '@devvit/web/server';
-import { fetchDay1Outlook } from './spcParser.js';
-import { fetchTropicalData } from './nhcParser.js';
+import { fetchDay1Outlook } from './parsers/spcParser.js';
+import { fetchTropicalData } from './parsers/nhcParser.js';
+import { checkForUpdates } from './upgradeNotifier.js';
 
 const app = new Hono();
 
@@ -16,6 +17,7 @@ app.post('/internal/weather-update', async (c) => {
         if (!outlook) return c.json({ status: 'no_data' });
 
         const subreddit = await reddit.getCurrentSubreddit();
+        await checkForUpdates(subreddit.name);
         
         // ==========================================
         // 1. GENERATE METEOROLOGICAL DATE 
@@ -154,16 +156,17 @@ ${tropicalStormsText}
             console.log(`New day detected. Starting reset process for: ${dateString}`);
 
             const oldStickyPost = existingPosts.find(p => 
-                p.title.startsWith('Severe Weather & Tropical Dashboard') && 
+                p.title.startsWith('Severe Weather Dashboard') && 
                 p.title !== targetTitle
             );
             
             if (oldStickyPost) {
                 try {
                     await oldStickyPost.unsticky();
-                    console.log(`Successfully unstickied old thread: ${oldStickyPost.id}`);
+                    await oldStickyPost.lock();
+                    console.log(`Successfully retired previous thread: ${oldStickyPost.id}`);
                 } catch (stickyError) {
-                    console.log('Could not remove sticky from old post, skipping...', stickyError);
+                    console.log('Could not retire previous post, skipping...', stickyError);
                 }
             }
 
