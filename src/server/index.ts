@@ -4,9 +4,13 @@ import { createServer, getServerPort, reddit } from '@devvit/web/server';
 import { fetchDay1Outlook } from './parsers/spcParser.js';
 import { fetchTropicalData } from './parsers/nhcParser.js';
 import { checkForUpdates } from './upgradeNotifier.js';
+import { handleAppInstall } from './triggers/install.js';
+import { handleAppUpgrade } from './triggers/upgrade.js';
 
 const app = new Hono();
 
+app.post('/internal/triggers/on-app-install', handleAppInstall);
+app.post('/internal/triggers/on-app-upgrade', handleAppUpgrade);
 app.post('/internal/weather-update', async (c) => {
     try {
         const [outlook, tropical] = await Promise.all([

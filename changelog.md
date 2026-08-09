@@ -2,7 +2,13 @@
 
 ---
 
+## v0.0.27
+
+* Resolved issue where app install/upgrade triggers were not firing properly.
+
 ## v0.0.26
+
+---
 
 * Daily dashboard posts are now unlocked by default, transforming them into active megathreads for your community.
 * Resolved an issue where previous daily dashboards were not automatically unstickying.

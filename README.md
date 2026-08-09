@@ -39,13 +39,9 @@ If you have any feedback/suggestions or need support, visit [r/NovrixApps](https
 
 ## 🚀 Changelog
 
-**Latest Version:** v0.0.26
+**Latest Version:** v0.0.27
 
-* Daily dashboard posts are now unlocked by default, transforming them into active megathreads for your community.
-* Resolved an issue where previous daily dashboards were not automatically unstickying.
-* Added a `Weather Bot 📡` user flair to Weathercast for clarity on subreddit role.
-* Triggers were added to provide subreddit mod teams with useful info on app install/upgrade.
-* Added app upgrade notifier system to notify subreddits when app upgrades are available.
+* Resolved issue where app install/upgrade triggers were not firing properly.
 
 For the full changelog, please visit the Weathercast [GitHub](https://github.com/ItsNovrix/Weathercast).
 

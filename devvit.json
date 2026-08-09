@@ -3,6 +3,7 @@
   "name": "weathercast",
   "permissions": {
     "reddit": true,
+    "redis": true,
     "http": {
       "enable": true,
       "domains": [
@@ -14,6 +15,10 @@
   "server": {
     "dir": "dist/server",
     "entry": "index.cjs"
+  },
+  "triggers": {
+    "onAppInstall": "/internal/triggers/on-app-install",
+    "onAppUpgrade": "/internal/triggers/on-app-upgrade"
   },
   "scheduler": {
     "tasks": {
