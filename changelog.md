@@ -2,6 +2,13 @@
 
 ---
 
+## v0.0.30
+
+* Cleared dependency cache and rebuilt dependencies due to app install and version update failure.
+* Updated app to latest Devvit version.
+
+---
+
 ## v0.0.29
 
 * Updated app to latest Devvit version.

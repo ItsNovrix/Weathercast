@@ -39,8 +39,9 @@ If you have any feedback/suggestions or need support, visit [r/NovrixApps](https
 
 ## 🚀 Changelog
 
-**Latest Version:** v0.0.29
+**Latest Version:** v0.0.30
 
+* Cleared dependency cache and rebuilt dependencies due to app install and version update failure.
 * Updated app to latest Devvit version.
 
 For the full changelog, please visit the Weathercast [GitHub](https://github.com/ItsNovrix/Weathercast).

@@ -16,12 +16,11 @@ export const handleAppUpgrade = async (c: Context) => {
 
     /* WHAT'S NEW */
     firstMsg += `**What's new:**\n\n\n`;
-    firstMsg += `- **Unlocked Dashboards:** Daily dashboard posts are now unlocked by default, transforming them into active megathreads for your community.\n`;
-    firstMsg += `- **Unsticky Posts Fix:** Resolved an issue where previous daily dashboards were not automatically unstickying.\n`;
-    firstMsg += `- **Bot Flair Update:** Added a \`Weather Bot 📡\` user flair to Weathercast for clarity on subreddit role.\n`;
-    firstMsg += `- **Install/Upgrade Triggers:** Added triggers to provide subreddit mod teams with useful info on app install/upgrade.\n`;
-    firstMsg += `- **App Upgrade Notifier:** Added app upgrade notifier system to notify subreddits when app upgrades are available.\n`;
-    firstMsg += `- **Install/Upgrade Triggers Fix:** Resolved an issue where install/upgrade triggers were not firing properly.\n\n`;
+    firstMsg += `- **Devvit Version Update** — Weathercast has been updated to the latest Devvit release (0.14.6).\n`;
+    firstMsg += `- **Dependency Updates** — Cleared dependency cache and rebuilt dependencies due to app install and version update failure.\n`;
+    firstMsg += `- **Bot Flair Update** — Added a \`Weather Bot 📡\` user flair to Weathercast for clarity on subreddit role.\n`;
+    firstMsg += `- **Install/Upgrade Triggers** — Added triggers to provide subreddit mod teams with useful info on app install/upgrade.\n`;
+    firstMsg += `- **App Upgrade Notifier** — Added app upgrade notifier system to notify subreddits when app upgrades are available.\n\n`;
 
     /* REMINDERS */
     firstMsg += `**Good to know / reminders:**\n\n\n`;
