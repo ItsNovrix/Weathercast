@@ -37,11 +37,18 @@ This app was developed in compliance with [Reddit's Developer Terms](https://www
 
 If you have any feedback/suggestions or need support, visit [r/NovrixApps](https://www.reddit.com/r/NovrixApps).
 
+---
+
+## 📋 App Development
+
+Track upcoming features, planned updates, and known issues for all my Devvit apps on the [Novrix Labs Trello Board](https://trello.com/b/1TdocvRg/novrix-labs).
+
+---
+
 ## 🚀 Changelog
 
-**Latest Version:** v0.0.30
+**Latest Version:** v0.0.31
 
-* Cleared dependency cache and rebuilt dependencies due to app install and version update failure.
 * Updated app to latest Devvit version.
 
 For the full changelog, please visit the Weathercast [GitHub](https://github.com/ItsNovrix/Weathercast).

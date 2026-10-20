@@ -9,7 +9,7 @@ interface AppUpdate {
 const UPDATE_SUBREDDIT = "NovrixApps";
 const UPDATE_WIKI_PAGE = "upgrade-notifier";
 const APP_SLUG = "weathercast"; 
-const CURRENT_APP_VERSION = "0.0.30";
+const CURRENT_APP_VERSION = "0.0.31";
 
 function isNewerVersion(current: string, latest: string): boolean {
     const v1 = current.split('.').map(Number);

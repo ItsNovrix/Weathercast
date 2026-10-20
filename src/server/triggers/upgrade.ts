@@ -16,8 +16,7 @@ export const handleAppUpgrade = async (c: Context) => {
 
     /* WHAT'S NEW */
     firstMsg += `**What's new:**\n\n\n`;
-    firstMsg += `- **Devvit Version Update** — Weathercast has been updated to the latest Devvit release (0.14.6).\n`;
-    firstMsg += `- **Dependency Updates** — Cleared dependency cache and rebuilt dependencies due to app install and version update failure.\n`;
+    firstMsg += `- **Devvit Version Update** — Weathercast has been updated to the latest Devvit release (0.15.0).\n`;
     firstMsg += `- **Bot Flair Update** — Added a \`Weather Bot 📡\` user flair to Weathercast for clarity on subreddit role.\n`;
     firstMsg += `- **Install/Upgrade Triggers** — Added triggers to provide subreddit mod teams with useful info on app install/upgrade.\n`;
     firstMsg += `- **App Upgrade Notifier** — Added app upgrade notifier system to notify subreddits when app upgrades are available.\n\n`;
@@ -34,7 +33,8 @@ export const handleAppUpgrade = async (c: Context) => {
     /* FOOTER */
     firstMsg += `[Terms & Conditions](https://www.reddit.com/r/NovrixApps/wiki/weathercast/terms-and-conditions) | `;
     firstMsg += `[Privacy Policy](https://www.reddit.com/r/NovrixApps/wiki/weathercast/privacy-policy/) | `;
-    firstMsg += `[Contact](https://www.reddit.com/r/NovrixApps/)\n\n`;
+    firstMsg += `[Feedback/Support](https://reddit.com/r/NovrixApps) | `,
+	  firstMsg += `[Novrix Labs Trello Board](https://trello.com/b/1TdocvRg/novrix-labs)\n\n`;
 
     await reddit.sendPrivateMessageAsSubreddit({
       fromSubredditName: subreddit.name,
