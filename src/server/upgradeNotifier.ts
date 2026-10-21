@@ -1,4 +1,6 @@
-import { reddit, redis } from "@devvit/web/server";
+import { reddit, redis, settings } from "@devvit/web/server";
+import { lt } from "semver";
+import json2md from "json2md";
 
 interface AppUpdate {
     appname: string;
@@ -6,72 +8,89 @@ interface AppUpdate {
     whatsNewBullets: string[];
 }
 
-const UPDATE_SUBREDDIT = "NovrixApps";
+const UPDATE_SUBREDDIT = "novrixapps";
 const UPDATE_WIKI_PAGE = "upgrade-notifier";
-const APP_SLUG = "weathercast"; 
-const CURRENT_APP_VERSION = "0.0.31";
+const CURRENT_APP_VERSION = "0.0.32";
 
-function isNewerVersion(current: string, latest: string): boolean {
-    const v1 = current.split('.').map(Number);
-    const v2 = latest.split('.').map(Number);
-    for (let i = 0; i < Math.max(v1.length, v2.length); i++) {
-        const num1 = v1[i] || 0;
-        const num2 = v2[i] || 0;
-        if (num2 > num1) return true;
-        if (num2 < num1) return false;
+export async function getNewVersionInfo(appSlug: string): Promise<AppUpdate | undefined> {
+    let wikiPage;
+    try {
+        wikiPage = await reddit.getWikiPage(UPDATE_SUBREDDIT, UPDATE_WIKI_PAGE, { wikiVersion: 'v2' });
+    } catch (error) { 
+        console.error(`Update Checker: Error getting wiki page ${UPDATE_WIKI_PAGE} from r/${UPDATE_SUBREDDIT}`);
+        console.error("EXACT ERROR DETAILS:", error); 
+        return;
     }
-    return false;
+
+    const cleanContent = wikiPage.content
+        .replace(/\\\[/g, '[')
+        .replace(/\\\]/g, ']')
+        .replace(/\\\{/g, '{')
+        .replace(/\\\}/g, '}')
+        .replace(/\\"/g, '"');
+
+    const updates = JSON.parse(cleanContent) as AppUpdate[];
+    const updatesForThisApp = updates.filter(update => update.appname === appSlug);
+    
+    if (updatesForThisApp.length === 0) return;
+    if (updatesForThisApp.length > 1) {
+        console.error(`Update Checker: Multiple updates found for app ${appSlug}`);
+        return;
+    }
+
+    const update = updatesForThisApp[0];
+
+    if (!lt(CURRENT_APP_VERSION, update.version)) {
+        return;
+    }
+
+    return update;
 }
 
-export async function checkForUpdates(subredditName: string) {
+export async function checkForUpdates() {
+    console.log("Update Checker: Waking up to check for updates...");
     try {
-        let wikiPage;
-        try {
-            wikiPage = await reddit.getWikiPage(UPDATE_SUBREDDIT, UPDATE_WIKI_PAGE);
-        } catch (err) {
-            console.error(`Update Checker: Could not read wiki page ${UPDATE_WIKI_PAGE} on r/${UPDATE_SUBREDDIT}`);
+        const notificationsEnabled = await settings.get('enable_update_notifications');
+        if (notificationsEnabled === false) {
+            console.log("Update Checker: Notifications disabled by subreddit. Going back to sleep.");
+            return;
+        }
+        const subreddit = await reddit.getCurrentSubreddit();
+        const appUser = await reddit.getAppUser();
+        const appSlug = appUser?.username ?? "weathercast";
+
+        const update = await getNewVersionInfo(appSlug);
+        if (!update) return;
+
+        const redisKey = "update-notification-sent";
+        const notificationSent = await redis.get(redisKey);
+        
+        if (notificationSent === update.version) {
             return;
         }
 
-        const updates = JSON.parse(wikiPage.content) as AppUpdate[];
-        const updatesForThisApp = updates.filter(update => update.appname === APP_SLUG);
+        await redis.set(redisKey, update.version);
+
+        const message: json2md.DataObject[] = [
+            { p: `A new version of **Weathercast** is available to install!` }
+        ];
         
-        if (updatesForThisApp.length === 0) return;
-
-        const latestUpdate = updatesForThisApp[0];
-
-        if (!isNewerVersion(CURRENT_APP_VERSION, latestUpdate.version)) {
-            return;
+        if (update.whatsNewBullets && update.whatsNewBullets.length > 0) {
+            message.push({ p: `**Here's what's new in v${update.version}:**` });
+            message.push({ ul: update.whatsNewBullets });
         }
 
-        const redisKey = `update_notified_${latestUpdate.version}`;
-        const alreadySent = await redis.get(redisKey);
-        
-        if (alreadySent === "true") {
-            return;
-        }
-
-        let message = `A new version of **Weathercast** (v${latestUpdate.version}) is available to install.\n\n`;
-        
-        if (latestUpdate.whatsNewBullets && latestUpdate.whatsNewBullets.length > 0) {
-            message += `**Here's what's new:**\n`;
-            latestUpdate.whatsNewBullets.forEach(bullet => {
-                message += `* ${bullet}\n`;
-            });
-            message += `\n`;
-        }
-
-        message += `To install this update, visit the [**Weathercast Configuration Page**](https://developers.reddit.com/r/${subredditName}/apps/${APP_SLUG}).`;
-
-        await reddit.modMail.createModNotification({
-            subredditId: (await reddit.getCurrentSubreddit()).id,
-            subject: `New Weathercast Update Available: v${latestUpdate.version}`,
-            bodyMarkdown: message,
+        message.push({ 
+            p: `To install this update, or to disable these notifications, visit the **[Weathercast configuration page](https://developers.reddit.com/r/${subreddit.name}/apps/weathercast)** for r/${subreddit.name}.` 
         });
 
-        console.log(`Update Checker: Notification sent for version ${latestUpdate.version}`);
+        await reddit.modMail.createModNotification({
+            subredditId: subreddit.id,
+            subject: `Weathercast Update Available: v${update.version}`,
+            bodyMarkdown: json2md(message),
+        });
 
-        await redis.set(redisKey, "true");
+        console.log(`Update Checker: Notification sent for version ${update.version}`);
 
     } catch (error) {
         console.error("Error in update checker:", error);

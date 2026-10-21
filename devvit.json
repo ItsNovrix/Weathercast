@@ -28,6 +28,50 @@
       }
     }
   },
+  "settings": {
+    "subreddit": {
+      "show_severe_links": {
+        "type": "boolean",
+        "label": "Enable Active Severe Weather Links",
+        "defaultValue": true
+      },
+      "show_watches": {
+        "type": "boolean",
+        "label": "Enable Active Watches & Tornado Risk",
+        "defaultValue": true
+      },
+      "show_outlook_history": {
+        "type": "boolean",
+        "label": "Enable Convective Outlook History",
+        "defaultValue": true
+      },
+      "show_mds": {
+        "type": "boolean",
+        "label": "Enable Active Mesoscale Discussions",
+        "defaultValue": true
+      },
+      "show_severe_outlook": {
+        "type": "boolean",
+        "label": "Enable Current Severe Weather Outlook",
+        "defaultValue": true
+      },
+      "show_tropical_links": {
+        "type": "boolean",
+        "label": "Enable Active Tropical Weather Links",
+        "defaultValue": true
+      },
+      "show_tropical_outlook": {
+        "type": "boolean",
+        "label": "Enable Tropical Weather Outlook",
+        "defaultValue": true
+      },
+      "show_cyclones": {
+        "type": "boolean",
+        "label": "Enable Active Tropical Cyclones",
+        "defaultValue": true
+      }
+    }
+  },
   "marketingAssets": {
     "icon": "assets/icon.png"
   },

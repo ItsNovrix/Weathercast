@@ -1,5 +1,11 @@
 # 🚀 Changelog for Weathercast
 
+## v0.0.32
+
+* Updated app upgrade notifier.
+* Added settings UI to allow for customization of weather sections show in dashboard post.
+* Added coverage for tornadic activity.
+
 ---
 
 ## v0.0.31

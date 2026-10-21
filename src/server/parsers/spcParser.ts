@@ -29,6 +29,38 @@ export async function fetchDay1Outlook() {
     const textData = await textResponse.json() as any;
 
     // ==========================================
+    // 2.5. EXTRACT TORNADO RISK PERCENTAGE
+    // ==========================================
+    let tornadoRisk = "None"; 
+    
+    // Look for the Tornado block (between "...TORNADO..." and "...HAIL..." or "...WIND...")
+    const tornadoSectionMatch = textData.productText.match(/\.\.\.\s*TORNADO\s*\.\.\.([\s\S]*?)(?:\.\.\.\s*(?:HAIL|WIND|MAXIMUM RISK|SUMMARY)\s*\.\.\.|\Z)/i);
+    
+    if (tornadoSectionMatch) {
+        const tornadoText = tornadoSectionMatch[1];
+        
+        // Scan for percentages at the start of lines in the probability table (e.g. " 15% HATCHED", "2% ")
+        const percentRegex = /^\s*(\d{1,2})%/gm;
+        let pMatch;
+        let maxPercent = 0;
+        
+        while ((pMatch = percentRegex.exec(tornadoText)) !== null) {
+            const val = parseInt(pMatch[1], 10);
+            if (val > maxPercent) {
+                maxPercent = val;
+            }
+        }
+        
+        if (maxPercent > 0) {
+            tornadoRisk = `${maxPercent}%`;
+            // Check if the highest risk area is hatched (significant severe potential)
+            if (tornadoText.toUpperCase().includes(`${maxPercent}%  HATCHED`) || tornadoText.toUpperCase().includes(`${maxPercent}% HATCHED`)) {
+                 tornadoRisk += " (Significant/Hatched)";
+            }
+        }
+    }
+
+    // ==========================================
     // 3. BUILD OUTLOOK HISTORY
     // ==========================================
     const todaysOutlooks = day1Outlooks.filter((p: any) => {
@@ -122,12 +154,49 @@ export async function fetchDay1Outlook() {
     }
 
     // ==========================================
+    // 4.5. FETCH ACTIVE WATCHES (TORNADO & SEVERE)
+    // ==========================================
+    const activeWatches: { title: string, url: string }[] = [];
+    
+    try {
+        const watchRssResponse = await fetch('https://www.spc.noaa.gov/products/spcwwrss.xml', { headers });
+        const watchRssText = await watchRssResponse.text();
+        
+        const itemRegex = /<item>([\s\S]*?)<\/item>/g;
+        let itemMatch;
+        
+        while ((itemMatch = itemRegex.exec(watchRssText)) !== null) {
+            const itemBlock = itemMatch[1];
+            
+            const titleMatch = itemBlock.match(/<title><!\[CDATA\[(.*?)\]\]><\/title>/i) || itemBlock.match(/<title>(.*?)<\/title>/i);
+            const linkMatch = itemBlock.match(/<link>(.*?)<\/link>/i);
+            
+            if (titleMatch && linkMatch) {
+                const rawTitle = titleMatch[1];
+                const url = linkMatch[1];
+                
+                // Matches "Tornado Watch" or "Severe Thunderstorm Watch", explicitly avoiding the "There are no active watches" dummy RSS post
+                if (rawTitle.match(/(Tornado|Severe Thunderstorm)\s+Watch/i)) {
+                    activeWatches.push({
+                        title: rawTitle.trim(),
+                        url: url.trim()
+                    });
+                }
+            }
+        }
+    } catch (err) {
+        console.error("Error fetching SPC Watch RSS:", err);
+    }
+
+    // ==========================================
     // 5. ASSEMBLE PAYLOAD
     // ==========================================
     return {
         timestamp: textData.issuanceTime,
         text: textData.productText,
         activeMDs,
+        activeWatches,         // <-- Successfully exposed to weatherUpdateJob.ts
+        tornadoRisk,           // <-- Successfully exposed to weatherUpdateJob.ts
         previousOutlooks,
         currentOutlookLink
     };
