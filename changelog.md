@@ -1,5 +1,11 @@
 # 🚀 Changelog for Weathercast
 
+## v0.0.33
+
+* Updated app to latest Devvit version.
+
+---
+
 ## v0.0.32
 
 * Updated app upgrade notifier.

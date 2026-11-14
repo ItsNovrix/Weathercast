@@ -47,11 +47,9 @@ Track upcoming features, planned updates, and known issues for all my Devvit app
 
 ## 🚀 Changelog
 
-**Latest Version:** v0.0.32
+**Latest Version:** v0.0.33
 
-* Updated app upgrade notifier.
-* Added settings UI to allow for customization of weather sections show in dashboard post.
-* Added coverage for tornadic activity.
+* Updated app to latest Devvit version.
 
 For the full changelog, please visit the Weathercast [GitHub](https://github.com/ItsNovrix/Weathercast).
 

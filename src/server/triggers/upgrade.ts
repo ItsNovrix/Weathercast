@@ -16,9 +16,9 @@ export const handleAppUpgrade = async (c: Context) => {
 
     /* WHAT'S NEW */
     firstMsg += `**What's new:**\n\n\n`;
+    firstMsg += `- **Devvit Version Update** — Weathercast has been updated to the latest Devvit release (0.15.3).\n`;
     firstMsg += `- **Tornadic Activity Coverage** — Added tornadic activity coverage.\n`;
     firstMsg += `- **App Settings Update** — Added a settings UI to allow customization of which weather sections should be shown.\n`;
-    firstMsg += `- **Devvit Version Update** — Weathercast has been updated to the latest Devvit release (0.15.0).\n`;
     firstMsg += `- **App Upgrade Notifier** — Added app upgrade notifier system to notify subreddits when app upgrades are available.\n\n`;
 
     /* REMINDERS */
